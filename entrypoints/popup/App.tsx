@@ -1,5 +1,7 @@
 import { storageTodoItems } from "@/libs/storage";
 import { useTodoItemsQuery, useToggleTodoItemMutation, useDeleteTodoItemMutation } from "@/libs/query";
+import "./style.css";
+import "./App.css";
 
 function App() {
 
@@ -9,10 +11,10 @@ function App() {
   const deleteTodoItemMutation = useDeleteTodoItemMutation();
 
   return (
-    <div>
-      <div>
+    <div className="todo-container">
+      <div className="todo-list">
         {todoItems.map(todoItem => (
-          <div key={todoItem.id}>
+          <div key={todoItem.id} className="todo-item">
             <input type="checkbox" checked={todoItem.isCompleted} onChange={async () => {
               await toggleTodoItemMutation.mutateAsync(todoItem.id);
             }} />
@@ -23,7 +25,7 @@ function App() {
         </div>
         ))}
       </div>
-      <form onSubmit={async e => {
+      <form className="add-todo-form" onSubmit={async e => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
         const content = formData.get('content') as string;

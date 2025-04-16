@@ -2,10 +2,26 @@ import { storageTodoItems } from "@/libs/storage";
 
 export default defineBackground(() => {
   console.log('Hello background!', { id: browser.runtime.id });
+
+  if (!browser.action) {
+    console.log('action not supported');
+    return;
+  }
+
+  browser.action.onClicked.addListener(async (tab) => {
+    console.log("wwww")
+    console.log('action clicked', tab);
+
+    browser.scripting.executeScript({
+      target: { tabId: tab.id! },
+      files: ['/dynamic.js']
+    });
+  });
+
   storageTodoItems.watch(async (value = []) => {
     console.log('todoItems', value);
     const { uncompletedCount, completedCount } = value.reduce((acc, item) => {
-      item.completed ? acc.completedCount++ : acc.uncompletedCount++;
+      item.isCompleted ? acc.completedCount++ : acc.uncompletedCount++;
       return acc;
     }, {
       uncompletedCount: 0,
@@ -19,5 +35,7 @@ export default defineBackground(() => {
       title: 'Todo updated',
       message: message
     })
-  })
+  });
 });
+
+
