@@ -13,7 +13,7 @@ function App() {
       <div>
         {todoItems.map(todoItem => (
           <div key={todoItem.id}>
-            <input type="checkbox" checked={todoItem.completed} onChange={async () => {
+            <input type="checkbox" checked={todoItem.isCompleted} onChange={async () => {
               await toggleTodoItemMutation.mutateAsync(todoItem.id);
             }} />
             <span>{todoItem.content}</span>
@@ -31,7 +31,7 @@ function App() {
         await storageTodoItems.setValue([...todoItems, {
           id: `${Date.now()}`,
           content,
-          completed: false
+          isCompleted: false
         }]);
 
         todoItemsQuery.refetch();

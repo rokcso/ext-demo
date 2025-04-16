@@ -1,3 +1,6 @@
-# WXT + React
+## Useage
 
-This template should help get you started developing with React in WXT.
+```bash
+pnpm i
+pnpn run dev
+```
